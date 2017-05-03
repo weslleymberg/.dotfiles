@@ -1,6 +1,6 @@
 set nocompatible "disable VI compatibility
 filetype indent on "enables filetype-specific indent files
-colorscheme evening
+colorscheme torte
 "---- Line Numbers ----
 set number "enables line number
 set relativenumber "enables relative number
