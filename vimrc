@@ -40,3 +40,6 @@ inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
 
+"---- Show trailing spaces ----
+set list
+set listchars=trail:.
