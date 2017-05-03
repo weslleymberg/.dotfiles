@@ -1,6 +1,14 @@
+"---- Enables Pathogen ----
+execute pathogen#infect()
+
+"---- General Settings ----
 set nocompatible "disable VI compatibility
 filetype indent on "enables filetype-specific indent files
-colorscheme torte
+set wildmenu "enables a graphical menu for autocomplete
+
+"---- Color scheme ----
+colorscheme evening
+
 "---- Line Numbers ----
 set number "enables line number
 set relativenumber "enables relative number
@@ -11,10 +19,13 @@ syntax enable "enables syntax highlighting
 set nomodeline "disables file specific config
 set encoding=utf-8 "set encoding to utf-8
 set showmatch "highlight matching () [] {}
+set wrap "wraps the text at the end of the screen
 
 "---- Search Options ----
 set incsearch "search as characters are entered
 set nohlsearch "explicitly tells vim to not highlight matches
+set ignorecase "case insensitive search
+set smartcase "enables case sensitivity if the sentence contains uppercase
 
 "---- Tab to Spaces config ----
 set expandtab "transform tab in spaces
@@ -43,3 +54,4 @@ inoremap <Right> <NOP>
 "---- Show trailing spaces ----
 set list
 set listchars=trail:.
+
