@@ -57,3 +57,14 @@ inoremap <Right> <NOP>
 set list
 set listchars=trail:.
 
+"---- netrw config ----
+set path+=** "Search down into subfolders for all tab-completion related tasks
+let g:netrw_banner=0 "disables banner
+let g:netrw_browse_split=2 "open in prior window
+let g:netrw_altv=1 "open splits to the right
+let g:netrw_liststyle=3 "tree view
+let g:netrw_list_hide=',\(^\|\s\s\)\zs\.\S\+'
+
+"---- Splitting options ----
+set splitright "split to the ritht
+set splitbelow "split below
