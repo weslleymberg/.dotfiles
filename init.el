@@ -1,0 +1,1 @@
+/home/weslleymberg/.emacs.d/init.el

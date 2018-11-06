@@ -2,7 +2,6 @@
 My personal dotfiles
 
 What I'm currently using:
-- Base16-shell
-- Base16-vim
-- Pathogen
-- Elixir-Vim
+- Emacs 26
+
+Currently I'm not using Vim or Tmux, but I'll keep the dotfiles here for future reference.
