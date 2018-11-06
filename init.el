@@ -8,6 +8,9 @@
 ;;Delete select text when typing
 (delete-selection-mode t)
 
+;;Widen line spacing
+(setq-default line-spacing 0.2)
+
 ;;Enable prettify symbol mode
 (global-prettify-symbols-mode t)
 
@@ -318,3 +321,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'narrow-to-region 'disabled nil)
