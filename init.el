@@ -113,11 +113,13 @@
 
 ;;;Enable ido vertical mode
 (use-package ido-vertical-mode
+  :ensure t
   :config
   (ido-vertical-mode 1))
 
 ;;;Enable smex
 (use-package smex
+  :ensure t
   :bind (("M-x" . smex)
 	 ("M-X" . smex-major-mode-commands)))
 
