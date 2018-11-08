@@ -167,10 +167,12 @@
   (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
   (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
   (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
+  (add-hook 'scheme-mode-hook #'enable-paredit-mode)
   :bind ("RET" . electrify-return-if-match))
 
 ;;;Enable ace-jump
 (use-package ace-jump-mode
+  :ensure t
   :bind ("C-c SPC" . ace-jump-mode)
   :bind ("C-M-SPC" . ace-jump-mode-pop-mark)
   :config
