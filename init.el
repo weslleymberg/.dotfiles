@@ -1,12 +1,15 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/"))
+             '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
 ;;;Personal preferences
 ;;Delete select text when typing
 (delete-selection-mode t)
+
+;;Spaces over tabs
+(setq-default indent-tabs-mode nil)
 
 ;;Widen line spacing
 (setq-default line-spacing 0.2)
@@ -19,7 +22,7 @@
  (lambda ()
    (mapc (lambda (pair) (push pair prettify-symbols-alist))
          '(;; Syntax
-	   ("def" .      #x1d453)
+           ("def" .      #x1d453)
            ("not" .      #x2757)
            ("in" .       #x2208)
            ("not in" .   #x2209)
@@ -79,8 +82,8 @@
   :config
   (dashboard-setup-startup-hook)
   (setq dashboard-items '((recents . 5)
-			  (projects . 5)
-			  (agenda . 5))))
+                          (projects . 5)
+                          (agenda . 5))))
 
 ;;;Enable expand region plugin
 (use-package expand-region
@@ -90,9 +93,9 @@
 (use-package multiple-cursors
   :ensure t
   :bind (("C-S-c C-S-c" . mc/edit-lines)
-	 ("C-<" . mc/mark-previous-like-this)
-	 ("C->" . mc/mark-next-like-this)
-	 ("C-c C-<". 'mc/mark-all-like-this)))
+         ("C-<" . mc/mark-previous-like-this)
+         ("C->" . mc/mark-next-like-this)
+         ("C-c C-<". 'mc/mark-all-like-this)))
 
 ;;;Enable projectile
 (use-package projectile
@@ -102,6 +105,12 @@
   (setq projectile-completion-system 'ido)
   (projectile-mode +1)
   :bind-keymap ("C-c p" . projectile-command-map))
+
+;; Ennable paren-face
+(use-package paren-face
+  :ensure t
+  :config
+  (global-paren-face-mode))
 
 ;;;Enable Ido
 (use-package ido
@@ -121,7 +130,7 @@
 (use-package smex
   :ensure t
   :bind (("M-x" . smex)
-	 ("M-X" . smex-major-mode-commands)))
+         ("M-X" . smex-major-mode-commands)))
 
 ;;;Enable uptimes
 (use-package uptimes
@@ -130,8 +139,8 @@
 ;;;Enable smartparens
 (use-package smartparens-config
   :ensure smartparens
-  :hook (python-mode . turn-on-smartparens-mode)
-  )
+  :hook (python-mode . turn-on-smartparens-mode))
+  
 
 ;;;Enable paredit
 ;; Stop SLIME's REPL from grabbing DEL,
@@ -141,7 +150,7 @@
     (read-kbd-macro paredit-backward-delete-key) nil))
 
 (defvar electrify-return-match
-    "[\]}\)\"]"
+  "[\]}\)\"]"
   "If this regexp matches the text after the cursor, do an \"electric\"
   return.")
 
@@ -149,26 +158,38 @@
   "If the text after the cursor matches `electrify-return-match' then
   open and indent an empty line between the cursor and the text.  Move the
   cursor to the new line."
-    (interactive "P")
-    (let ((case-fold-search nil))
-      (if (looking-at electrify-return-match)
-	  (save-excursion (newline-and-indent)))
-      (newline arg)
-      (indent-according-to-mode)))
+  (interactive "P")
+  (let ((case-fold-search nil))
+    (if (looking-at electrify-return-match)
+        (save-excursion (newline-and-indent)))
+    (newline arg)
+    (indent-according-to-mode)))
 
 
 (use-package paredit
+  :ensure t)
+  ;; :init
+  ;; (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+  ;; (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+  ;; (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+  ;; (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+  ;; (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+  ;; (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
+  ;; (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
+  ;; (add-hook 'scheme-mode-hook #'enable-paredit-mode)
+  ;; :bind ("RET" . electrify-return-if-match))
+
+;;;Enable parinfer
+(use-package parinfer
   :ensure t
+  :bind
+  (("C-," . parinfer-toggle-mode))
   :init
-  (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-  (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-  (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-  (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-  (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
-  (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
-  (add-hook 'scheme-mode-hook #'enable-paredit-mode)
-  :bind ("RET" . electrify-return-if-match))
+  (setq parinfer-extensions '(defaults paredit))
+  (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
+  (add-hook 'common-lisp-mode-hook #'parinfer-mode)
+  (add-hook 'scheme-mode-hook #'parinfer-mode)
+  (add-hook 'lisp-mode-hook #'parinfer-mode))
 
 ;;;Enable ace-jump
 (use-package ace-jump-mode
@@ -220,7 +241,7 @@
 (use-package company-web-html
   :ensure company-web
   :hook (web-mode . (lambda ()
-		      (set (make-local-variable 'company-backends) '(company-css company-web-html company-yasnippet company-files)))))
+                      (set (make-local-variable 'company-backends) '(company-css company-web-html company-yasnippet company-files)))))
 
 ;;;Enable emmet
 (use-package emmet-mode
@@ -253,6 +274,14 @@
   :config
   (setq inferior-lisp-program "/usr/bin/sbcl"))
 
+;;;Enable geiser for Scheme
+;; (use-package geiser
+;;   :ensure t
+;;   :config
+;;   (setq geiser-repl-query-on-kill-p nil)
+;;   (setq geiser-repl-skip-version-check-p t)
+;;   (setq geiser-active-implementations '(mit)))
+
 ;;;Magit
 (use-package magit
   :ensure t
@@ -266,8 +295,8 @@
   (let ((project (projectile-project-name)))
     (if (member project (pyenv-mode-versions))
         (progn
-	  (setenv "VIRTUAL_ENV" (pyenv-mode-full-path project))
-	  (pyenv-mode-set project))
+          (setenv "VIRTUAL_ENV" (pyenv-mode-full-path project))
+          (pyenv-mode-set project))
       (pyenv-mode-unset))))
 
 
@@ -285,8 +314,8 @@
   :init
   (setq jedi:environment-root "~/.pyenv/versions/jedienv")
   :hook ((python-mode . jedi:setup)
-	 (python-mode . (lambda ()
-			  (add-to-list 'company-backends 'company-jedi)))))
+         (python-mode . (lambda ()
+                          (add-to-list 'company-backends 'company-jedi)))))
 
 ;;;Enable smart-mode-line
 (use-package smart-mode-line
@@ -317,12 +346,12 @@
     ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "94e31993c54782f0db8494c42dc7ddd4195f9e3e43b9caff63f3f7f6ad6c8693" default)))
  '(package-selected-packages
    (quote
-    (company-quickhelp flycheck-prospector ido-mode use-package smex eink-theme uptimes ace-jump-mode ido-vertical-mode which-key smartparens company-web pyenv-mode-auto pyenv-mode linum-relative web-mode git-gutter magit emmet-mode yasnippet-snippets yasnippet py-autopep8 flycheck company company-jedi pipenv projectile slime expand-region)))
+    (parinfer paren-face geiser company-quickhelp flycheck-prospector ido-mode use-package smex eink-theme uptimes ace-jump-mode ido-vertical-mode which-key smartparens company-web pyenv-mode-auto pyenv-mode linum-relative web-mode git-gutter magit emmet-mode yasnippet-snippets yasnippet py-autopep8 flycheck company company-jedi pipenv projectile slime expand-region)))
  '(tool-bar-mode nil))
-(custom-set-faces
+(custom-set-faces)
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ 
 (put 'narrow-to-region 'disabled nil)
