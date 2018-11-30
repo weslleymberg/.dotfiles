@@ -106,7 +106,21 @@
   (projectile-mode +1)
   :bind-keymap ("C-c p" . projectile-command-map))
 
-;; Ennable paren-face
+;;;Enable tramp
+(use-package tramp
+  :config
+  (when (eq system-type 'windows-nt)
+    (setq tramp-default-method "plink")))
+
+;;;Enable Vagrant and Vagrant-Tramp
+(use-package vagrant
+  :ensure t)
+
+(use-package vagrant-tramp
+  :ensure t
+  :defer t)
+
+;;;Enable paren-face
 (use-package paren-face
   :ensure t
   :config
@@ -167,29 +181,17 @@
 
 
 (use-package paredit
-  :ensure t)
-  ;; :init
-  ;; (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-  ;; (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-  ;; (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-  ;; (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-  ;; (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-  ;; (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
-  ;; (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
-  ;; (add-hook 'scheme-mode-hook #'enable-paredit-mode)
-  ;; :bind ("RET" . electrify-return-if-match))
-
-;;;Enable parinfer
-(use-package parinfer
   :ensure t
-  :bind
-  (("C-," . parinfer-toggle-mode))
   :init
-  (setq parinfer-extensions '(defaults paredit))
-  (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
-  (add-hook 'common-lisp-mode-hook #'parinfer-mode)
-  (add-hook 'scheme-mode-hook #'parinfer-mode)
-  (add-hook 'lisp-mode-hook #'parinfer-mode))
+  (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+  (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+  (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+  (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+  (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
+  (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
+  (add-hook 'scheme-mode-hook #'enable-paredit-mode)
+  :bind ("RET" . electrify-return-if-match))
 
 ;;;Enable ace-jump
 (use-package ace-jump-mode
@@ -346,9 +348,14 @@
     ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "94e31993c54782f0db8494c42dc7ddd4195f9e3e43b9caff63f3f7f6ad6c8693" default)))
  '(package-selected-packages
    (quote
-    (parinfer paren-face geiser company-quickhelp flycheck-prospector ido-mode use-package smex eink-theme uptimes ace-jump-mode ido-vertical-mode which-key smartparens company-web pyenv-mode-auto pyenv-mode linum-relative web-mode git-gutter magit emmet-mode yasnippet-snippets yasnippet py-autopep8 flycheck company company-jedi pipenv projectile slime expand-region)))
+    (vagrant-tramp vagrant parinfer paren-face geiser company-quickhelp flycheck-prospector ido-mode use-package smex eink-theme uptimes ace-jump-mode ido-vertical-mode which-key smartparens company-web pyenv-mode-auto pyenv-mode linum-relative web-mode git-gutter magit emmet-mode yasnippet-snippets yasnippet py-autopep8 flycheck company company-jedi pipenv projectile slime expand-region)))
  '(tool-bar-mode nil))
-(custom-set-faces)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
