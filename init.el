@@ -1,3 +1,4 @@
+
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
@@ -5,6 +6,7 @@
 (package-initialize)
 
 ;;;Personal preferences
+
 ;;Delete select text when typing
 (delete-selection-mode t)
 
@@ -108,6 +110,7 @@
 
 ;;;Enable tramp
 (use-package tramp
+  :defer t
   :config
   (when (eq system-type 'windows-nt)
     (setq tramp-default-method "plink")))
@@ -304,6 +307,7 @@
 
 (use-package pyenv-mode
   :ensure t
+  :if (eq system-type 'gnu/linux)
   :init
   (add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
   :config
