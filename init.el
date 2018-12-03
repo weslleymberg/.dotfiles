@@ -19,25 +19,6 @@
 ;;Enable prettify symbol mode
 (global-prettify-symbols-mode t)
 
-(add-hook
- 'python-mode-hook
- (lambda ()
-   (mapc (lambda (pair) (push pair prettify-symbols-alist))
-         '(;; Syntax
-           ("def" .      #x1d453)
-           ("not" .      #x2757)
-           ("in" .       #x2208)
-           ("not in" .   #x2209)
-           ("return" .   #x27fc)
-           ("yield" .    #x27fb)
-           ("for" .      #x2200)
-           ;; Base Types
-           ("int" .      #x2124)
-           ("float" .    #x211d)
-           ("str" .      #x1d54a)
-           ("True" .     #x1d54b)
-           ("False" .    #x1d53d)))))
-
 ;;Use ibuffer as the default
 (defalias 'list-buffers 'ibuffer)
 
@@ -313,15 +294,13 @@
   :config
   (pyenv-mode))
 
-
-;;;Enable company-jedi
-(use-package company-jedi
+;;;Enable company-anaconda
+(use-package company-anaconda
   :ensure t
-  :init
-  (setq jedi:environment-root "~/.pyenv/versions/jedienv")
-  :hook ((python-mode . jedi:setup)
+  :hook ((python-mode . anaconda-mode)
+         (python-mode . anaconda-eldoc-mode)
          (python-mode . (lambda ()
-                          (add-to-list 'company-backends 'company-jedi)))))
+                          (add-to-list 'company-backends 'company-anaconda)))))
 
 ;;;Enable smart-mode-line
 (use-package smart-mode-line
