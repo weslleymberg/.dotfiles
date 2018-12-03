@@ -91,10 +91,7 @@
 
 ;;;Enable tramp
 (use-package tramp
-  :defer t
-  :config
-  (when (eq system-type 'windows-nt)
-    (setq tramp-default-method "plink")))
+  :defer t)
 
 ;;;Enable Vagrant and Vagrant-Tramp
 (use-package vagrant
