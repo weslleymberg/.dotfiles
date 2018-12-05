@@ -68,6 +68,10 @@
                           (projects . 5)
                           (agenda . 5))))
 
+;;;Enable vagramp
+(use-package vagramp
+  :load-path "~/.emacs.d/lisp/vagramp")
+
 ;;;Enable expand region plugin
 (use-package expand-region
   :ensure t
