@@ -89,18 +89,6 @@
   (projectile-mode +1)
   :bind-keymap ("C-c p" . projectile-command-map))
 
-;;;Enable tramp
-(use-package tramp
-  :defer t)
-
-;;;Enable Vagrant and Vagrant-Tramp
-(use-package vagrant
-  :ensure t)
-
-(use-package vagrant-tramp
-  :ensure t
-  :defer t)
-
 ;;;Enable paren-face
 (use-package paren-face
   :ensure t
