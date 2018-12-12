@@ -99,7 +99,7 @@
   :config
   (setq ido-enable-flex-matching t)
   (setq ido-create-new-buffer 'always)
-  (setq ido-everywhere t)
+  (ido-everywhere t)
   (ido-mode 1))
 
 ;;;Enable ido vertical mode
@@ -117,6 +117,17 @@
 ;;;Enable uptimes
 (use-package uptimes
   :ensure t)
+
+;;;Configure org-mode
+(use-package org
+  :hook (org-mode . visual-line-mode)
+  :config
+  (setq org-startup-indented t))
+
+;;;Enable org-bullets
+(use-package org-bullets
+  :ensure t
+  :hook (org-mode . org-bullets-mode))
 
 ;;;Enable smartparens
 (use-package smartparens-config
@@ -308,3 +319,18 @@
   :ensure t
   :config
   (load-theme 'eink t))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (org-bullets yasnippet-snippets which-key web-mode volatile-highlights use-package uptimes smex smartparens smart-mode-line slime restclient pyenv-mode py-autopep8 projectile paren-face paredit org multiple-cursors magit ido-vertical-mode flycheck-prospector expand-region emmet-mode eink-theme dashboard company-web company-quickhelp company-jedi company-anaconda auto-package-update ace-jump-mode))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
