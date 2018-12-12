@@ -1,8 +1,7 @@
 
 (require 'package)
-(setq package-enable-at-startup nil)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (package-initialize)
 
 ;;;Personal preferences
@@ -67,10 +66,6 @@
   (setq dashboard-items '((recents . 5)
                           (projects . 5)
                           (agenda . 5))))
-
-;;;Enable vagramp
-(use-package vagramp
-  :load-path "~/.emacs.d/lisp/vagramp")
 
 ;;;Enable expand region plugin
 (use-package expand-region
@@ -304,33 +299,12 @@
   :config
   (volatile-highlights-mode t))
 
-;;Enable custom theme
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(custom-enabled-themes (quote (eink)))
- '(custom-safe-themes
-   (quote
-    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "94e31993c54782f0db8494c42dc7ddd4195f9e3e43b9caff63f3f7f6ad6c8693" default)))
- '(package-selected-packages
-   (quote
-    (vagrant-tramp vagrant parinfer paren-face geiser company-quickhelp flycheck-prospector ido-mode use-package smex eink-theme uptimes ace-jump-mode ido-vertical-mode which-key smartparens company-web pyenv-mode-auto pyenv-mode linum-relative web-mode git-gutter magit emmet-mode yasnippet-snippets yasnippet py-autopep8 flycheck company company-jedi pipenv projectile slime expand-region)))
- '(tool-bar-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- 
-(put 'narrow-to-region 'disabled nil)
+;;;Enable restclient
+(use-package restclient
+  :ensure t)
+
+;;;Enable eink-theme
+(use-package eink-theme
+  :ensure t
+  :config
+  (load-theme 'eink t))
