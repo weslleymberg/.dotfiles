@@ -23,6 +23,7 @@
 
 ;;Disable UI component
 (scroll-bar-mode -1)
+(tool-bar-mode 0)
 
 ;;Kill current buffer
 ;;From pragmaticemacs.com
