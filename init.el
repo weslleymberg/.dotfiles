@@ -1,10 +1,14 @@
 
 (require 'package)
+(setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (package-initialize)
 
 ;;;Personal preferences
+
+;;Set emacs home (needed on windows 10 wsl).
+(setq default-directory (getenv "HOME"))
 
 ;;Delete select text when typing
 (delete-selection-mode t)
@@ -42,7 +46,9 @@
 (show-paren-mode t)
 
 ;;Change default font face
-(set-frame-font "Hack-12" nil t)
+(add-hook 'after-make-frame-functions
+          (lambda (frame)
+            (set-frame-font "Hack-12" nil t)))
 
 ;;;;Start Package configuration
 
@@ -63,6 +69,7 @@
 (use-package dashboard
   :ensure t
   :config
+  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
   (dashboard-setup-startup-hook)
   (setq dashboard-items '((recents . 5)
                           (projects . 5)
@@ -303,6 +310,7 @@
   :ensure t
   :config
   (setq sml/no-confirm-load-theme t)
+  (setq sml/theme 'light)
   (sml/setup))
 
 ;;;Enable volatile highlights
