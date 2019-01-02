@@ -129,6 +129,7 @@
 ;;;Configure org-mode
 (use-package org
   :hook (org-mode . visual-line-mode)
+  :bind ("C-c a" . org-agenda)
   :config
   (setq org-startup-indented t))
 
@@ -323,6 +324,12 @@
 (use-package restclient
   :ensure t)
 
+;;;Enable PHP mode
+(use-package php-mode
+  :ensure t
+  :config
+  (php-mode))
+
 ;;;Enable eink-theme
 (use-package eink-theme
   :ensure t
@@ -334,12 +341,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-agenda-files (quote ("~/Dropbox/Org/Notes.org")))
  '(package-selected-packages
    (quote
-    (org-bullets yasnippet-snippets which-key web-mode volatile-highlights use-package uptimes smex smartparens smart-mode-line slime restclient pyenv-mode py-autopep8 projectile paren-face paredit org multiple-cursors magit ido-vertical-mode flycheck-prospector expand-region emmet-mode eink-theme dashboard company-web company-quickhelp company-jedi company-anaconda auto-package-update ace-jump-mode))))
+    (php-mode org-bullets yasnippet-snippets which-key web-mode volatile-highlights use-package uptimes smex smartparens smart-mode-line slime restclient pyenv-mode py-autopep8 projectile paren-face paredit org multiple-cursors magit ido-vertical-mode flycheck-prospector expand-region emmet-mode eink-theme dashboard company-web company-quickhelp company-jedi company-anaconda auto-package-update ace-jump-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:background "#fffff8" :foreground "#111111")))))
