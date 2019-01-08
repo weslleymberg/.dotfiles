@@ -38,6 +38,9 @@
 
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
 
+;;Keybind for grep
+(global-set-key (kbd "C-c g") 'grep)
+
 ;;Highlight line
 (global-hl-line-mode 1)
 (set-face-attribute hl-line-face nil :underline t)
@@ -46,9 +49,7 @@
 (show-paren-mode t)
 
 ;;Change default font face
-(add-hook 'after-make-frame-functions
-          (lambda (frame)
-            (set-frame-font "Hack-12" nil t)))
+(set-frame-font "Hack-12" nil t)
 
 ;;;;Start Package configuration
 
@@ -87,6 +88,10 @@
          ("C->" . mc/mark-next-like-this)
          ("C-c C-<". 'mc/mark-all-like-this)))
 
+;;;Enable csv-mode
+(use-package csv-mode
+  :ensure t)
+
 ;;;Enable projectile
 (use-package projectile
   :ensure t
@@ -95,6 +100,12 @@
   (setq projectile-completion-system 'ido)
   (projectile-mode +1)
   :bind-keymap ("C-c p" . projectile-command-map))
+
+;;;Enable pdf-tools
+(use-package pdf-tools
+  :ensure t
+  :init
+  (pdf-loader-install))
 
 ;;;Enable paren-face
 (use-package paren-face
@@ -131,7 +142,8 @@
   :hook (org-mode . visual-line-mode)
   :bind ("C-c a" . org-agenda)
   :config
-  (setq org-startup-indented t))
+  (setq org-startup-indented t)
+  (setq org-log-done 'note))
 
 ;;;Enable org-bullets
 (use-package org-bullets
@@ -264,14 +276,6 @@
   :config
   (setq inferior-lisp-program "/usr/bin/sbcl"))
 
-;;;Enable geiser for Scheme
-;; (use-package geiser
-;;   :ensure t
-;;   :config
-;;   (setq geiser-repl-query-on-kill-p nil)
-;;   (setq geiser-repl-skip-version-check-p t)
-;;   (setq geiser-active-implementations '(mit)))
-
 ;;;Magit
 (use-package magit
   :ensure t
@@ -294,9 +298,7 @@
   :ensure t
   :if (eq system-type 'gnu/linux)
   :init
-  (add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
-  :config
-  (pyenv-mode))
+  (add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set))
 
 ;;;Enable company-anaconda
 (use-package company-anaconda
@@ -313,6 +315,11 @@
   (setq sml/no-confirm-load-theme t)
   (setq sml/theme 'light)
   (sml/setup))
+
+;;;Hide minor modes
+(use-package minions
+  :ensure t
+  :config (minions-mode 1))
 
 ;;;Enable volatile highlights
 (use-package volatile-highlights
@@ -342,6 +349,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-agenda-files (quote ("~/Dropbox/Org/Notes.org")))
+ '(org-modules
+   (quote
+    (org-bbdb org-bibtex org-docview org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m)))
  '(package-selected-packages
    (quote
     (php-mode org-bullets yasnippet-snippets which-key web-mode volatile-highlights use-package uptimes smex smartparens smart-mode-line slime restclient pyenv-mode py-autopep8 projectile paren-face paredit org multiple-cursors magit ido-vertical-mode flycheck-prospector expand-region emmet-mode eink-theme dashboard company-web company-quickhelp company-jedi company-anaconda auto-package-update ace-jump-mode))))
