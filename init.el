@@ -118,8 +118,14 @@
   :config
   (setq ido-enable-flex-matching t)
   (setq ido-create-new-buffer 'always)
-  (ido-everywhere t)
-  (ido-mode 1))
+  (ido-mode 1)
+  (ido-everywhere 1))
+
+;;ido everywhere +
+(use-package ido-completing-read+
+  :ensure t
+  :config
+  (ido-ubiquitous-mode 1))
 
 ;;;Enable ido vertical mode
 (use-package ido-vertical-mode
@@ -142,8 +148,24 @@
   :hook (org-mode . visual-line-mode)
   :bind ("C-c a" . org-agenda)
   :config
+  ;;org-config
   (setq org-startup-indented t)
-  (setq org-log-done 'note))
+  (setq org-log-done 'note)
+  (setq org-agenda-span 'day)
+  (setq org-agenda-files '("~/Dropbox/Org"))
+  (setq org-archive-location "arquive.org::* %s/datetree/")
+  ;;refile setup
+  (setq org-refile-targets '((nil :maxlevel . 9)
+                             (org-agenda-files :maxlevel . 9)))
+  (setq org-refile-use-outline-path 'file)
+  (setq org-outline-path-complete-in-steps nil)
+  (setq org-refile-allow-creating-parent-nodes 'confirm)
+  ;;agenda setup
+  (setq org-agenda-custom-commands
+        '(("r" "Refile"
+           ((tags "REFILE"
+                  ((org-agenda-overriding-header "To Refile")
+                   (org-tags-match-list-sublevels nil))))))))
 
 ;;;Enable org-bullets
 (use-package org-bullets
@@ -279,7 +301,9 @@
 ;;;Magit
 (use-package magit
   :ensure t
-  :bind ("C-x g" . magit-status))
+  :bind ("C-x g" . magit-status)
+  :config
+  (setq magit-completing-read-function 'magit-ido-completing-read))
 
 ;; git-svn commands are available in the N option
 ;; after you enable this config on the local repo
@@ -339,9 +363,7 @@
 
 ;;;Enable PHP mode
 (use-package php-mode
-  :ensure t
-  :config
-  (php-mode))
+  :ensure t)
 
 ;;;Enable eink-theme
 (use-package eink-theme
@@ -354,13 +376,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files (quote ("~/Dropbox/Org/Notes.org")))
  '(org-modules
    (quote
     (org-bbdb org-bibtex org-docview org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m)))
  '(package-selected-packages
    (quote
-    (magit-svn php-mode org-bullets yasnippet-snippets which-key web-mode volatile-highlights use-package uptimes smex smartparens smart-mode-line slime restclient pyenv-mode py-autopep8 projectile paren-face paredit org multiple-cursors magit ido-vertical-mode flycheck-prospector expand-region emmet-mode eink-theme dashboard company-web company-quickhelp company-jedi company-anaconda auto-package-update ace-jump-mode))))
+    (ido-completing-read+ magit-svn php-mode org-bullets yasnippet-snippets which-key web-mode volatile-highlights use-package uptimes smex smartparens smart-mode-line slime restclient pyenv-mode py-autopep8 projectile paren-face paredit org multiple-cursors magit ido-vertical-mode flycheck-prospector expand-region emmet-mode eink-theme dashboard company-web company-quickhelp company-jedi company-anaconda auto-package-update ace-jump-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
