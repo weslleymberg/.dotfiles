@@ -29,6 +29,9 @@
 (scroll-bar-mode -1)
 (tool-bar-mode 0)
 
+;;Dired
+(setq dired-dwim-target t)
+
 ;;Kill current buffer
 ;;From pragmaticemacs.com
 (defun kill-this-buffer ()
@@ -150,10 +153,10 @@
   :config
   ;;org-config
   (setq org-startup-indented t)
-  (setq org-log-done 'note)
   (setq org-agenda-span 'day)
   (setq org-agenda-files '("~/Dropbox/Org"))
   (setq org-archive-location "arquive.org::* %s/datetree/")
+  (setq org-log-into-drawer t)
   ;;refile setup
   (setq org-refile-targets '((nil :maxlevel . 9)
                              (org-agenda-files :maxlevel . 9)))
@@ -161,6 +164,7 @@
   (setq org-outline-path-complete-in-steps nil)
   (setq org-refile-allow-creating-parent-nodes 'confirm)
   ;;agenda setup
+  (setq org-agenda-window-setup 'current-window)
   (setq org-agenda-custom-commands
         '(("r" "Refile"
            ((tags "REFILE"
