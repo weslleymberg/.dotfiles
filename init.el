@@ -2,7 +2,6 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (package-initialize)
 
 ;;;Personal preferences
@@ -12,6 +11,9 @@
 
 ;;Delete select text when typing
 (delete-selection-mode t)
+
+;;Reduces time spent with gc
+(setq gc-cons-threshold 20000000)
 
 ;;Spaces over tabs
 (setq-default indent-tabs-mode nil)
@@ -41,9 +43,6 @@
 
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
 
-;;Keybind for grep
-(global-set-key (kbd "C-c g") 'grep)
-
 ;;Highlight line
 (global-hl-line-mode 1)
 (set-face-attribute hl-line-face nil :underline t)
@@ -53,6 +52,10 @@
 
 ;;Change default font face
 (set-frame-font "Hack-12" nil t)
+
+;;Enable auto-save mode
+(auto-save-visited-mode)
+(setq auto-save-visited-interval 3)
 
 ;;;;Start Package configuration
 
@@ -91,16 +94,12 @@
          ("C->" . mc/mark-next-like-this)
          ("C-c C-<". 'mc/mark-all-like-this)))
 
-;;;Enable csv-mode
-(use-package csv-mode
-  :ensure t)
-
 ;;;Enable projectile
 (use-package projectile
   :ensure t
   :config
   (setq projectile-project-search-path '("~/Projects/"))
-  (setq projectile-completion-system 'ido)
+  (setq projectile-completion-system 'ivy)
   (projectile-mode +1)
   :bind-keymap ("C-c p" . projectile-command-map))
 
@@ -116,60 +115,33 @@
   :config
   (global-paren-face-mode))
 
-;;;Enable Ido
-(use-package ido
-  :config
-  (setq ido-enable-flex-matching t)
-  (setq ido-create-new-buffer 'always)
-  (ido-mode 1)
-  (ido-everywhere 1))
-
-;;ido everywhere +
-(use-package ido-completing-read+
+;;;Enable ivy related packages
+(use-package ivy
   :ensure t
   :config
-  (ido-ubiquitous-mode 1))
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
+  (setq ivy-initial-inputs-alist nil))
 
-;;;Enable ido vertical mode
-(use-package ido-vertical-mode
+(use-package counsel
   :ensure t
+  :bind (("C-c g" . 'counsel-git-grep)
+         ("C-x l" . 'counsel-locate))
   :config
-  (ido-vertical-mode 1))
+  (counsel-mode 1))
 
-;;;Enable smex
-(use-package smex
+(use-package swiper
   :ensure t
-  :bind (("M-x" . smex)
-         ("M-X" . smex-major-mode-commands)))
+  :bind (("C-s" . swiper)))
 
-;;;Enable uptimes
-(use-package uptimes
+(use-package flx
   :ensure t)
 
-;;;Configure org-mode
-(use-package org
-  :hook (org-mode . visual-line-mode)
-  :bind ("C-c a" . org-agenda)
-  :config
-  ;;org-config
-  (setq org-startup-indented t)
-  (setq org-agenda-span 'day)
-  (setq org-agenda-files '("~/Dropbox/Org"))
-  (setq org-archive-location "arquive.org::* %s/datetree/")
-  (setq org-log-into-drawer t)
-  ;;refile setup
-  (setq org-refile-targets '((nil :maxlevel . 9)
-                             (org-agenda-files :maxlevel . 9)))
-  (setq org-refile-use-outline-path 'file)
-  (setq org-outline-path-complete-in-steps nil)
-  (setq org-refile-allow-creating-parent-nodes 'confirm)
-  ;;agenda setup
-  (setq org-agenda-window-setup 'current-window)
-  (setq org-agenda-custom-commands
-        '(("r" "Refile"
-           ((tags "REFILE"
-                  ((org-agenda-overriding-header "To Refile")
-                   (org-tags-match-list-sublevels nil))))))))
+;;needed by swiper
+(use-package smex
+  :ensure t)
 
 ;;;Enable org-bullets
 (use-package org-bullets
@@ -179,7 +151,8 @@
 ;;;Enable smartparens
 (use-package smartparens-config
   :ensure smartparens
-  :hook (python-mode . turn-on-smartparens-mode))
+  :hook (python-mode . turn-on-smartparens-mode)
+  :hook (php-mode . turn-on-smartparens-mode))
   
 
 ;;;Enable paredit
@@ -219,25 +192,22 @@
   (add-hook 'scheme-mode-hook #'enable-paredit-mode)
   :bind ("RET" . electrify-return-if-match))
 
-;;;Enable ace-jump
-(use-package ace-jump-mode
+;;;Enable avy
+(use-package avy
   :ensure t
-  :bind ("C-c SPC" . ace-jump-mode)
-  :bind ("C-M-SPC" . ace-jump-mode-pop-mark)
-  :config
-  (ace-jump-mode-enable-mark-sync))
+  :bind (("C-:" . 'avy-goto-char)
+         ("M-g g" . 'avy-goto-line)))
 
-;;Enable which-key
+;;;Enable ace-window
+(use-package ace-window
+  :ensure t
+  :bind ("M-o" . 'ace-window))
+
+;;;Enable which-key
 (use-package which-key
   :ensure t
   :config
   (which-key-mode))
-
-;;Enable yasnippet
-(use-package yasnippet
-  :ensure t
-  :config
-  (yas-global-mode 1))
 
 ;;;Enable Companymode
 (use-package company
@@ -309,11 +279,6 @@
   :config
   (setq magit-completing-read-function 'magit-ido-completing-read))
 
-;; git-svn commands are available in the N option
-;; after you enable this config on the local repo
-;; git config --add magit.extension svn
-(use-package magit-svn
-  :ensure t)
 
 ;;;Enable pyenv-mode
 
@@ -380,12 +345,28 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["#2e3436" "#a40000" "#4e9a06" "#c4a000" "#204a87" "#5c3566" "#729fcf" "#eeeeec"])
+ '(ansi-term-color-vector
+   [unspecified "#2e2e2e" "#bc8383" "#7f9f7f" "#d0bf8f" "#6ca0a3" "#dc8cc3" "#8cd0d3" "#b6b6b6"] t)
+ '(custom-safe-themes
+   (quote
+    ("f738c3eb5cfc7e730fea413f9cd8ba0624bd8b4837451660fe169f13f77c7814" "39fe48be738ea23b0295cdf17c99054bb439a7d830248d7e6493c2110bfed6f8" "5b52a4d0d95032547f718e1574d3a096c6eaf56117e188945ae873bdb3200066" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "de1f10725856538a8c373b3a314d41b450b8eba21d653c4a4498d52bb801ecd2" "5ed25f51c2ed06fc63ada02d3af8ed860d62707e96efc826f4a88fd511f45a1d" "94e31993c54782f0db8494c42dc7ddd4195f9e3e43b9caff63f3f7f6ad6c8693" "1dacaddeba04ac1d1a2c6c8100952283b63c4b5279f3d58fb76a4f5dd8936a2c" "6c5a5c47749e7992b4da3011595f5470f33e19f29b10564cd4f62faebbe36b91" "8150ded55351553f9d143c58338ebbc582611adc8a51946ca467bd6fa35a1075" default)))
+ '(fci-rule-color "#f8fce8")
+ '(hl-paren-background-colors (quote ("#e8fce8" "#c1e7f8" "#f8e8e8")))
+ '(hl-paren-colors (quote ("#40883f" "#0287c8" "#b85c57")))
  '(org-modules
    (quote
     (org-bbdb org-bibtex org-docview org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m)))
  '(package-selected-packages
    (quote
-    (ido-completing-read+ magit-svn php-mode org-bullets yasnippet-snippets which-key web-mode volatile-highlights use-package uptimes smex smartparens smart-mode-line slime restclient pyenv-mode py-autopep8 projectile paren-face paredit org multiple-cursors magit ido-vertical-mode flycheck-prospector expand-region emmet-mode eink-theme dashboard company-web company-quickhelp company-jedi company-anaconda auto-package-update ace-jump-mode))))
+    (monotropic-theme punpun-theme plan9-theme plain-theme brutalist-theme goose-theme grayscale-theme greymatters-theme ido-completing-read+ magit-svn php-mode org-bullets yasnippet-snippets which-key web-mode volatile-highlights use-package uptimes smex smartparens smart-mode-line slime restclient pyenv-mode py-autopep8 projectile paren-face paredit org multiple-cursors magit ido-vertical-mode flycheck-prospector expand-region emmet-mode eink-theme dashboard company-web company-quickhelp company-jedi company-anaconda auto-package-update ace-jump-mode)))
+ '(sml/active-background-color "#98ece8")
+ '(sml/active-foreground-color "#424242")
+ '(sml/inactive-background-color "#4fa8a8")
+ '(sml/inactive-foreground-color "#424242"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
