@@ -2,6 +2,7 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (package-initialize)
 
 ;;;Personal preferences
@@ -82,6 +83,16 @@
                           (projects . 5)
                           (agenda . 5))))
 
+
+;;;Configure Org-Mode
+(use-package org
+  :ensure t
+  :pin org
+  :hook (org-mode . visual-line-mode)
+  :bind ("C-c a" . org-agenda)
+  :config
+  (setq org-agenda-files '("~/Dropbox/Org/life.org")))
+
 ;;;Enable expand region plugin
 (use-package expand-region
   :ensure t
@@ -120,9 +131,8 @@
   :ensure t
   :config
   (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
-  (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
+  (setq ivy-re-builders-alist '((t . ivy--regex-plus)))
   (setq ivy-initial-inputs-alist nil))
 
 (use-package counsel
@@ -201,7 +211,8 @@
 ;;;Enable ace-window
 (use-package ace-window
   :ensure t
-  :bind ("M-o" . 'ace-window))
+  :bind (("M-o" . 'ace-window)
+         ("C-x o" . 'ace-window)))
 
 ;;;Enable which-key
 (use-package which-key
@@ -362,7 +373,7 @@
     (org-bbdb org-bibtex org-docview org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m)))
  '(package-selected-packages
    (quote
-    (monotropic-theme punpun-theme plan9-theme plain-theme brutalist-theme goose-theme grayscale-theme greymatters-theme ido-completing-read+ magit-svn php-mode org-bullets yasnippet-snippets which-key web-mode volatile-highlights use-package uptimes smex smartparens smart-mode-line slime restclient pyenv-mode py-autopep8 projectile paren-face paredit org multiple-cursors magit ido-vertical-mode flycheck-prospector expand-region emmet-mode eink-theme dashboard company-web company-quickhelp company-jedi company-anaconda auto-package-update ace-jump-mode)))
+    (sudo-edit monotropic-theme punpun-theme plan9-theme plain-theme brutalist-theme goose-theme grayscale-theme greymatters-theme ido-completing-read+ magit-svn php-mode org-bullets yasnippet-snippets which-key web-mode volatile-highlights use-package uptimes smex smartparens smart-mode-line slime restclient pyenv-mode py-autopep8 projectile paren-face paredit org multiple-cursors magit ido-vertical-mode flycheck-prospector expand-region emmet-mode eink-theme dashboard company-web company-quickhelp company-jedi company-anaconda auto-package-update ace-jump-mode)))
  '(sml/active-background-color "#98ece8")
  '(sml/active-foreground-color "#424242")
  '(sml/inactive-background-color "#4fa8a8")
