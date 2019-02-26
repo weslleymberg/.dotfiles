@@ -58,6 +58,9 @@
 (auto-save-visited-mode)
 (setq auto-save-visited-interval 3)
 
+;;Use slime helper
+(load (expand-file-name "~/quicklisp/slime-helper.el"))
+
 ;;;;Start Package configuration
 
 ;;;Install use-package if not already
@@ -279,9 +282,9 @@
 ;;;Set Lisp compiler to sbcl
 (use-package slime
   :ensure t
-  :hook (lisp-mode . slime-mode)
   :config
-  (setq inferior-lisp-program "/usr/bin/sbcl"))
+  (setq inferior-lisp-program "/usr/bin/sbcl")
+  (setq slime-contribs '(slime-fancy)))
 
 ;;;Magit
 (use-package magit
