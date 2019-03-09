@@ -30,7 +30,8 @@
 
 ;;Disable UI component
 (scroll-bar-mode -1)
-(tool-bar-mode 0)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
 
 ;;Dired
 (setq dired-dwim-target t)
@@ -58,8 +59,9 @@
 (auto-save-visited-mode)
 (setq auto-save-visited-interval 3)
 
-;;Use slime helper
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
+;;Use roswel slime helper
+(load (expand-file-name "~/.roswell/helper.el"))
+(setq inferior-lisp-program "ros -Q run")
 
 ;;;;Start Package configuration
 
@@ -278,13 +280,6 @@
   :hook (python-mode . py-autopep8-enable-on-save)
   :config
   (setq py-autopep8-options '("--max-line-length=79")))
-
-;;;Set Lisp compiler to sbcl
-(use-package slime
-  :ensure t
-  :config
-  (setq inferior-lisp-program "/usr/bin/sbcl")
-  (setq slime-contribs '(slime-fancy)))
 
 ;;;Magit
 (use-package magit
