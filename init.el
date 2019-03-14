@@ -61,7 +61,9 @@
 
 ;;Use roswel slime helper
 (load (expand-file-name "~/.roswell/helper.el"))
-(setq inferior-lisp-program "ros -Q run")
+
+;;Set default browser to eww
+(setq browse-url-browser-function 'eww-browse-url)
 
 ;;;;Start Package configuration
 
@@ -210,7 +212,7 @@
 ;;;Enable avy
 (use-package avy
   :ensure t
-  :bind (("C-:" . 'avy-goto-char)
+  :bind (("C-:" . 'avy-goto-word-1)
          ("M-g g" . 'avy-goto-line)))
 
 ;;;Enable ace-window
