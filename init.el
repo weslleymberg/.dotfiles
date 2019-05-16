@@ -2,7 +2,7 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+;; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (package-initialize)
 
 ;;;Personal preferences
@@ -62,6 +62,15 @@
 ;;Use roswel slime helper
 (load (expand-file-name "~/.roswell/helper.el"))
 
+;;Load slime for local development
+(defun slime-qlot (directory)
+  (interactive (list (read-directory-name "Project directory: ")))
+  (slime-start :program "qlot"
+               :program-args '("exec" "ros" "-S" "." "run")
+               :directory directory
+               :name 'qlot
+               :env (list (concat "PATH=" (mapconcat 'identity exec-path ":")))))
+
 ;;Set default browser to eww
 (setq browse-url-browser-function 'eww-browse-url)
 
@@ -92,13 +101,13 @@
 
 
 ;;;Configure Org-Mode
-(use-package org
-  :ensure t
-  :pin org
-  :hook (org-mode . visual-line-mode)
-  :bind ("C-c a" . org-agenda)
-  :config
-  (setq org-agenda-files '("~/Dropbox/Org/life.org")))
+;; (use-package org
+;;   :ensure t
+;;   :pin org
+;;   :hook (org-mode . visual-line-mode)
+;;   :bind ("C-c a" . org-agenda)
+;;   :config
+;;   (setq org-agenda-files '("~/Dropbox/Org/life.org")))
 
 ;;;Enable expand region plugin
 (use-package expand-region
@@ -172,6 +181,13 @@
   :hook (php-mode . turn-on-smartparens-mode))
   
 
+;;;Enable geiser
+(use-package geiser
+  :ensure t
+  :config
+  (setq geiser-active-implementations '(chicken)))
+
+
 ;;;Enable paredit
 ;; Stop SLIME's REPL from grabbing DEL,
 ;; which is annoying when backspacing over a '('
@@ -207,6 +223,7 @@
   (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
   (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
   (add-hook 'scheme-mode-hook #'enable-paredit-mode)
+  (add-hook 'geiser-repl-mode-hook #'enable-paredit-mode)
   :bind ("RET" . electrify-return-if-match))
 
 ;;;Enable avy
