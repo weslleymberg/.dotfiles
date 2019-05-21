@@ -75,6 +75,15 @@
 ;;Set default browser to eww
 (setq browse-url-browser-function 'eww-browse-url)
 
+;;;Personal functions
+(defun choose-programming-subject ()
+  "Choose programming subject from list."
+  (interactive)
+  (let* ((subjects '("3D Renderer" "Augmented Reality" "BitTorrent Client" "Blockchain / Cryptocurrency" "Bot" "Command-Line Tool" "Database" "Docker" "Emulator / Virtual Machine" "Front-end Framework / Library" "Game" "Git" "Network Stack" "Neural Network" "Operating System" "Physics Engine" "Programming Language" "Regex Engine" "Search Engine" "Shell" "Template Engine" "Text Editor" "Visual Recognition System" "Voxel Engine" "Web Search Engine" "Web Server" "Uncategorized"))
+         (subjects-length (length subjects))
+         (choice (random subjects-length)))
+    (message "%s" (elt subjects choice))))
+
 ;;;;Start Package configuration
 
 ;;;Install use-package if not already
