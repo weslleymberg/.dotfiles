@@ -64,6 +64,7 @@
 
 ;;Load slime for local development
 (defun slime-qlot (directory)
+  "Start slime on DIRECTORY for local development."
   (interactive (list (read-directory-name "Project directory: ")))
   (slime-start :program "qlot"
                :program-args '("exec" "ros" "-S" "." "run")
@@ -98,16 +99,6 @@
   (setq dashboard-items '((recents . 5)
                           (projects . 5)
                           (agenda . 5))))
-
-
-;;;Configure Org-Mode
-;; (use-package org
-;;   :ensure t
-;;   :pin org
-;;   :hook (org-mode . visual-line-mode)
-;;   :bind ("C-c a" . org-agenda)
-;;   :config
-;;   (setq org-agenda-files '("~/Dropbox/Org/life.org")))
 
 ;;;Enable expand region plugin
 (use-package expand-region
@@ -177,16 +168,7 @@
 ;;;Enable smartparens
 (use-package smartparens-config
   :ensure smartparens
-  :hook (python-mode . turn-on-smartparens-mode)
-  :hook (php-mode . turn-on-smartparens-mode))
-  
-
-;;;Enable geiser
-(use-package geiser
-  :ensure t
-  :config
-  (setq geiser-active-implementations '(chicken)))
-
+  :hook (c-mode . turn-on-smartparens-mode))
 
 ;;;Enable paredit
 ;; Stop SLIME's REPL from grabbing DEL,
@@ -197,13 +179,12 @@
 
 (defvar electrify-return-match
   "[\]}\)\"]"
-  "If this regexp matches the text after the cursor, do an \"electric\"
-  return.")
+  "If this regexp matches the text after the cursor do an \"electric\" return.")
 
 (defun electrify-return-if-match (arg)
-  "If the text after the cursor matches `electrify-return-match' then
-  open and indent an empty line between the cursor and the text.  Move the
-  cursor to the new line."
+  "If the text after the cursor match `electrify-return-match' then
+open and indent an empty line between the cursor and the text.
+Move the cursor to the new line."
   (interactive "P")
   (let ((case-fold-search nil))
     (if (looking-at electrify-return-match)
@@ -222,8 +203,6 @@
   (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
   (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
   (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
-  (add-hook 'scheme-mode-hook #'enable-paredit-mode)
-  (add-hook 'geiser-repl-mode-hook #'enable-paredit-mode)
   :bind ("RET" . electrify-return-if-match))
 
 ;;;Enable avy
@@ -251,7 +230,6 @@
   :hook (after-init . global-company-mode)
   :config
   (setq company-tooltip-limit 20)                       ; bigger popup window
-  (setq company-idle-delay 0)                           ; decrease delay before autocompletion popup shows
   (setq company-echo-delay 0)                           ; remove annoying blinking
   (setq company-begin-commands '(self-insert-command))) ; start completition right after typing
 
@@ -261,76 +239,15 @@
   :config
   (company-quickhelp-mode))
 
-;;;Enable web-mode
-(use-package web-mode
-  :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-  (setq web-mode-engines-alist '(("django" . "\\.html?\\'")))
-  (setq web-mode-markup-indent-offset 2)
-  (setq web-mode-enable-current-element-highlight t))
-
-;;;Enable company-web-html
-(use-package company-web-html
-  :ensure company-web
-  :hook (web-mode . (lambda ()
-                      (set (make-local-variable 'company-backends) '(company-css company-web-html company-yasnippet company-files)))))
-
-;;;Enable emmet
-(use-package emmet-mode
-  :ensure t
-  :hook (web-mode . emmet-mode))
-
 ;;;Enable FlyCkeck
 (use-package flycheck
   :ensure t
-  :hook (after-init . global-flycheck-mode)
-  :config
-  (add-to-list 'flycheck-disabled-checkers 'python-flake8)
-  (add-to-list 'flycheck-disabled-checkers 'python-pylint))
-
-;;;Enable flycheck-prospector
-(use-package flycheck-prospector
-  :ensure t)
-
-;;;Enable autopep8
-(use-package py-autopep8
-  :ensure t
-  :hook (python-mode . py-autopep8-enable-on-save)
-  :config
-  (setq py-autopep8-options '("--max-line-length=79")))
+  :hook (after-init . global-flycheck-mode))
 
 ;;;Magit
 (use-package magit
   :ensure t
   :bind ("C-x g" . magit-status))
-
-;;;Enable pyenv-mode
-
-;;enable pyenv for projectile
-(defun projectile-pyenv-mode-set ()
-  "Set pyenv version matching project name."
-  (let ((project (projectile-project-name)))
-    (if (member project (pyenv-mode-versions))
-        (progn
-          (setenv "VIRTUAL_ENV" (pyenv-mode-full-path project))
-          (pyenv-mode-set project))
-      (pyenv-mode-unset))))
-
-
-(use-package pyenv-mode
-  :ensure t
-  :if (eq system-type 'gnu/linux)
-  :init
-  (add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set))
-
-;;;Enable company-anaconda
-(use-package company-anaconda
-  :ensure t
-  :hook ((python-mode . anaconda-mode)
-         (python-mode . anaconda-eldoc-mode)
-         (python-mode . (lambda ()
-                          (add-to-list 'company-backends 'company-anaconda)))))
 
 ;;;Enable smart-mode-line
 (use-package smart-mode-line
@@ -350,14 +267,6 @@
   :ensure t
   :config
   (volatile-highlights-mode t))
-
-;;;Enable restclient
-(use-package restclient
-  :ensure t)
-
-;;;Enable PHP mode
-(use-package php-mode
-  :ensure t)
 
 ;;;Enable eink-theme
 (use-package eink-theme
