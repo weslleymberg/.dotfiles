@@ -183,11 +183,11 @@
   :hook (c-mode . turn-on-smartparens-mode))
 
 ;;;Enable picolisp-mode
-(use-package picolisp-mode
-  :ensure t
-  :mode "\\.l\\'"
-  :custom
-  (picolisp-documentation-directory "/usr/share/doc/picolisp/doc/"))
+;; Clone picolisp-mode from https://github.com/tj64/picolisp-mode
+(use-package picolisp
+  :load-path "site-lisp/picolisp-mode"
+  :mode ("\\.l$" . picolisp-mode)
+  :hook (picolisp-mode-hook . tsm-mode))
 
 ;;;Enable paredit
 ;; Stop SLIME's REPL from grabbing DEL,
@@ -220,7 +220,7 @@ Move the cursor to the new line."
   (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
   (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
   (add-hook 'picolisp-mode-hook         #'enable-paredit-mode)
-  (add-hook 'picolisp-repl-mode-hook    #'enable-paredit-mode)
+  (add-hook 'inferior-picolisp-mode-hook #'enable-paredit-mode)
   (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
   (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
   (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
@@ -318,6 +318,7 @@ Move the cursor to the new line."
  '(package-selected-packages
    (quote
     (sudo-edit monotropic-theme punpun-theme plan9-theme plain-theme brutalist-theme goose-theme grayscale-theme greymatters-theme ido-completing-read+ magit-svn php-mode org-bullets yasnippet-snippets which-key web-mode volatile-highlights use-package uptimes smex smartparens smart-mode-line slime restclient pyenv-mode py-autopep8 projectile paren-face paredit org multiple-cursors magit ido-vertical-mode flycheck-prospector expand-region emmet-mode eink-theme dashboard company-web company-quickhelp company-jedi company-anaconda auto-package-update ace-jump-mode)))
+ '(picolisp-documentation-directory "/usr/share/doc/picolisp/doc/" t)
  '(sml/active-background-color "#98ece8")
  '(sml/active-foreground-color "#424242")
  '(sml/inactive-background-color "#4fa8a8")
