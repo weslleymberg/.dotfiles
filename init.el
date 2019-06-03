@@ -186,8 +186,7 @@
 ;; Clone picolisp-mode from https://github.com/tj64/picolisp-mode
 (use-package picolisp
   :load-path "site-lisp/picolisp-mode"
-  :mode ("\\.l$" . picolisp-mode)
-  :hook (picolisp-mode-hook . tsm-mode))
+  :mode ("\\.l$" . picolisp-mode))
 
 ;;;Enable paredit
 ;; Stop SLIME's REPL from grabbing DEL,
@@ -219,9 +218,9 @@ Move the cursor to the new line."
   (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
   (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
   (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
   (add-hook 'picolisp-mode-hook         #'enable-paredit-mode)
   (add-hook 'inferior-picolisp-mode-hook #'enable-paredit-mode)
-  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
   (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
   (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
   :bind ("RET" . electrify-return-if-match))
