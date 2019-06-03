@@ -99,6 +99,10 @@
   (setq auto-package-update-hide-results t)
   (auto-package-update-maybe))
 
+;;;Enable all-the-icons
+(use-package all-the-icons
+  :ensure t)
+
 ;;;Enable Emacs Dashboard
 (use-package dashboard
   :ensure t
@@ -106,8 +110,7 @@
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
   (dashboard-setup-startup-hook)
   (setq dashboard-items '((recents . 5)
-                          (projects . 5)
-                          (agenda . 5))))
+                          (projects . 5))))
 
 ;;;Enable expand region plugin
 (use-package expand-region
@@ -179,6 +182,13 @@
   :ensure smartparens
   :hook (c-mode . turn-on-smartparens-mode))
 
+;;;Enable picolisp-mode
+(use-package picolisp-mode
+  :ensure t
+  :mode "\\.l\\'"
+  :custom
+  (picolisp-documentation-directory "/usr/share/doc/picolisp/doc/"))
+
 ;;;Enable paredit
 ;; Stop SLIME's REPL from grabbing DEL,
 ;; which is annoying when backspacing over a '('
@@ -209,6 +219,8 @@ Move the cursor to the new line."
   (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
   (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
   (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+  (add-hook 'picolisp-mode-hook         #'enable-paredit-mode)
+  (add-hook 'picolisp-repl-mode-hook    #'enable-paredit-mode)
   (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
   (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
   (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
