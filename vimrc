@@ -1,15 +1,8 @@
-"---- Enables Pathogen ----
-execute pathogen#infect()
-
-"---- Enable Base16 theme ----
-if filereadable(expand("~/.vimrc_background"))
-    source ~/.vimrc_background
-endif
-
 "---- General Settings ----
 set nocompatible "disable VI compatibility
 filetype indent on "enables filetype-specific indent files
 set wildmenu "enables a graphical menu for autocomplete
+colorscheme morning
 
 "---- Line Numbers ----
 set number "enables line number
