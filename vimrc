@@ -3,6 +3,7 @@ set nocompatible "disable VI compatibility
 filetype indent on "enables filetype-specific indent files
 set wildmenu "enables a graphical menu for autocomplete
 colorscheme morning
+set showtabline=0
 
 "---- Line Numbers ----
 set number "enables line number
@@ -10,7 +11,7 @@ set relativenumber "enables relative number
 set numberwidth=1 "set how much columns the numbers occupy
 
 "---- Text Options ----
-syntax enable "enables syntax highlighting
+syntax off "disables syntax highlighting
 set nomodeline "disables file specific config
 set encoding=utf-8 "set encoding to utf-8
 set showmatch "highlight matching () [] {}
@@ -30,7 +31,7 @@ set shiftwidth=4 "number os spaces to use with (auto)ident
 
 "---- Personal Mappings ----
 "remaps enter key to insert a blank line above the cursor
-nnoremap <CR> O<Esc>j 
+nnoremap <CR> O<Esc>j
 "use 'jj' as escape key
 inoremap jj <ESC>
 
@@ -50,14 +51,14 @@ inoremap <Right> <NOP>
 set list
 set listchars=trail:.
 
-"---- netrw config ----
-set path+=** "Search down into subfolders for all tab-completion related tasks
-let g:netrw_banner=0 "disables banner
-let g:netrw_browse_split=2 "open in prior window
-let g:netrw_altv=1 "open splits to the right
-let g:netrw_liststyle=3 "tree view
-let g:netrw_list_hide=',\(^\|\s\s\)\zs\.\S\+'
-
 "---- Splitting options ----
 set splitright "split to the ritht
 set splitbelow "split below
+
+"---- Personal commands ----
+function s:OpenProject()
+    execute "tcd" input("Project path: ", "", "file")
+    execute "edit" input("Open project file: ", "", "file")
+endfunction
+
+command -nargs=0 Project call s:OpenProject()
