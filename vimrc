@@ -62,3 +62,31 @@ function s:OpenProject()
 endfunction
 
 command -nargs=0 Project call s:OpenProject()
+
+function s:OpenScheme()
+    vnew
+    let t:active_repl = termopen("scheme", {'rpc':v:false})
+endfunction
+
+command -nargs=0 Scheme call s:OpenScheme() | normal "<C-w>w"
+
+function s:SendToRepl(content)
+    if !exists("t:active_repl")
+        echo " Error - No REPL found!"
+    else
+        call chansend(t:active_repl, a:content . "\n")
+    endif
+endfunction
+
+command -nargs=1 SendToREPL call s:SendToRepl(<args>)
+
+nnoremap <C-c><C-c> ya(:SendToREPL @"<CR>
+
+function s:Eval()
+    let user_input = input("Eval: ")
+    call s:SendToRepl(user_input)
+endfunction
+
+command -nargs=0 Eval call s:Eval()
+
+nnoremap <C-c><C-e> :Eval<CR>
