@@ -19,7 +19,7 @@ set encoding=utf-8 "set encoding to utf-8
 set showmatch "highlight matching () [] {}
 set wrap "wraps the text at the end of the screen
 set list
-set listchars=trail:.
+set listchars=trail:.,tab:▸\ 
 
 "---- Search Options ----
 set incsearch "search as characters are entered
@@ -28,7 +28,8 @@ set ignorecase "case insensitive search
 set smartcase "enables case sensitivity if the sentence contains uppercase
 
 "---- Tab to Spaces config ----
-"set expandtab "transform tab in spaces
+autocmd FileType go set noexpandtab
+autocmd FileType * set expandtab
 set tabstop=4 "number of visual spaces per tab
 set softtabstop=4 "number of visual spaces per tab when editing
 set shiftwidth=4 "number os spaces to use with (auto)ident
