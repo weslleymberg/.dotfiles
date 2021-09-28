@@ -14,7 +14,7 @@ export PATH
 
 if [ -v TOOLBOX_PATH ];
 then
-    PS1="\[$(tput setaf 1)\]; \[$(tput setaf 0)\]"
+    PS1="\[$(tput setaf 1)\]; \[$(tput sgr0)\]"
 else
     PS1="; "
 fi
