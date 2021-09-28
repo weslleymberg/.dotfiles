@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -eux
+
+git config --global user.name "Weslleymberg"
+git config --global user.email "weslleym.lisboa@gmail.com"
