@@ -18,3 +18,8 @@ then
 else
     PS1="; "
 fi
+
+
+# Plan 9 Port path
+PLAN9=/var/home/weslleymberg/.local/plan9 export PLAN9
+PATH=$PATH:$PLAN9/bin export PATH
