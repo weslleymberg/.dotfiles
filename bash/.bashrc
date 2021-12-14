@@ -18,3 +18,6 @@ then
 else
     PS1="; "
 fi
+
+# Go path
+export PATH=$PATH:~/.local/go/bin:~/go/bin
