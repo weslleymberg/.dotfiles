@@ -6,6 +6,8 @@ set showtabline=0
 colorscheme vacme
 filetype plugin on
 set path+=**
+set shell=powershell
+set bs=indent,eol,start
 
 "---- Line Numbers ----
 set number "enables line number
@@ -28,8 +30,6 @@ set ignorecase "case insensitive search
 set smartcase "enables case sensitivity if the sentence contains uppercase
 
 "---- Tab to Spaces config ----
-autocmd FileType go set noexpandtab
-autocmd FileType * set expandtab
 set tabstop=4 "number of visual spaces per tab
 set softtabstop=4 "number of visual spaces per tab when editing
 set shiftwidth=4 "number os spaces to use with (auto)ident
@@ -50,6 +50,10 @@ inoremap <Right> <NOP>
 set splitright "split to the ritht
 set splitbelow "split below
 
+"---- GUI ----
+set gfn=Courier_New:h10:cANSI:qDRAFT
+set go=egmrLt
+
 "---- File Browsing ----
 let g:netrw_banner=0        " disable annoying banner
 let g:netrw_browse_split=4  " open in prior window
@@ -63,5 +67,3 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 nnoremap <CR> O<Esc>j
 "use 'jj' as escape key
 inoremap jj <ESC>
-command! MakeTags !ctags -R "need to install ctags
-
